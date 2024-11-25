@@ -52,7 +52,7 @@ script = SubResource("GDScript_h8s3t")
 movement_data = {
 0: 1,
 1: 5,
-2: 2
+2: 100
 }
 
 [node name="Map" type="TileMap"]
