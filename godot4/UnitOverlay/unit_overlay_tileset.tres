@@ -7,11 +7,13 @@
 texture = ExtResource("1_hexbb")
 texture_region_size = Vector2i(80, 80)
 0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.486275)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ps8mp"]
 texture = ExtResource("2_h3ks4")
 texture_region_size = Vector2i(80, 80)
 0:0/0 = 0
+0:0/0/modulate = Color(1, 1, 1, 0.486275)
 
 [resource]
 tile_size = Vector2i(80, 80)

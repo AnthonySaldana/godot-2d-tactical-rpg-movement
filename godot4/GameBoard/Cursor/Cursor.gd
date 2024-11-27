@@ -14,6 +14,8 @@ signal moved(new_cell)
 ## Time before the cursor can move again in seconds.
 @export var ui_cooldown := 0.1
 
+var is_mouse = false
+
 ## Coordinates of the current cell the cursor is hovering.
 var cell := Vector2.ZERO:
 	set(value):
@@ -37,13 +39,20 @@ var cell := Vector2.ZERO:
 
 func _ready() -> void:
 	_timer.wait_time = ui_cooldown
+	cell = grid.calculate_grid_coordinates(position)
 	position = grid.calculate_map_position(cell)
 
+func _process(_delta: float) -> void:
+	if(is_mouse):
+		var grid_coords = grid.calculate_grid_coordinates(get_global_mouse_position())
+		if(cell != grid_coords):
+			cell = grid_coords
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Navigating cells with the mouse.
 	if event is InputEventMouseMotion:
-		cell = grid.calculate_grid_coordinates(event.position)
+		#cell = grid.calculate_grid_coordinates(event.position)
+		is_mouse = true
 	# Trying to select something in a cell.
 	elif event.is_action_pressed("click") or event.is_action_pressed("ui_accept"):
 		emit_signal("accept_pressed", cell)
@@ -59,12 +68,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Moves the cursor by one grid cell.
 	if event.is_action("ui_right"):
 		cell += Vector2.RIGHT
+		is_mouse = false
 	elif event.is_action("ui_up"):
 		cell += Vector2.UP
+		is_mouse = false
 	elif event.is_action("ui_left"):
 		cell += Vector2.LEFT
+		is_mouse = false
 	elif event.is_action("ui_down"):
 		cell += Vector2.DOWN
+		is_mouse = false
 
 
 func _draw() -> void:
