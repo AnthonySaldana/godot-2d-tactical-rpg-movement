@@ -1,0 +1,19 @@
+[remap]
+
+importer="dd2vtt.importer"
+type="PackedScene"
+uid="uid://pkkmiufrnwjy"
+path="res://.godot/imported/meteor-map.dd2vtt-f7b26f7d22c7100bcd439d311bc28a7a.scn"
+
+[deps]
+
+source_file="res://Background/meteor-map.dd2vtt"
+dest_files=["res://.godot/imported/meteor-map.dd2vtt-f7b26f7d22c7100bcd439d311bc28a7a.scn"]
+
+[params]
+
+Walls as Occluders=true
+Walls as Lines=true
+Load Lights=true
+Light Texture=Resource("res://addons/dd2vtt/light_textures/soft_texture.tres")
+Occluder Objects=true

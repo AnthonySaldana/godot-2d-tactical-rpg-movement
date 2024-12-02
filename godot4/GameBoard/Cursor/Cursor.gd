@@ -9,6 +9,9 @@ signal accept_pressed(cell)
 ## Emitted when the cursor moved to a new cell.
 signal moved(new_cell)
 
+## Emitted when the cursor is near the edge of the screen.
+signal edge_reached(direction)
+
 ## Grid resource, giving the node access to the grid size, and more.
 @export var grid: Resource
 ## Time before the cursor can move again in seconds.
@@ -17,7 +20,8 @@ signal moved(new_cell)
 var is_mouse = false
 
 ## Coordinates of the current cell the cursor is hovering.
-var cell := Vector2.ZERO:
+@export_group("Cursor")
+@export var cell := Vector2.ZERO:
 	set(value):
 		# We first clamp the cell coordinates and ensure that we aren't
 		#	trying to move outside the grid boundaries
@@ -41,12 +45,6 @@ func _ready() -> void:
 	_timer.wait_time = ui_cooldown
 	cell = grid.calculate_grid_coordinates(position)
 	position = grid.calculate_map_position(cell)
-
-func _process(_delta: float) -> void:
-	if(is_mouse):
-		var grid_coords = grid.calculate_grid_coordinates(get_global_mouse_position())
-		if(cell != grid_coords):
-			cell = grid_coords
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Navigating cells with the mouse.
@@ -82,3 +80,26 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _draw() -> void:
 	draw_rect(Rect2(-grid.cell_size / 2, grid.cell_size), Color.ALICE_BLUE, false, 2.0)
+
+# ... existing code ...
+
+func _process(_delta: float) -> void:
+	if(is_mouse):
+		var grid_coords = grid.calculate_grid_coordinates(get_global_mouse_position())
+		if(cell != grid_coords):
+			cell = grid_coords
+
+		# Check if the cursor is near the edge of the screen
+		var viewport_size = get_viewport().get_size()
+		var mouse_pos = get_viewport().get_mouse_position()
+		var edge_threshold = -5  # Pixels from edge to trigger camera movement
+		
+		# Only emit edge signals when mouse is actually near viewport edges
+		if mouse_pos.x < edge_threshold:
+			emit_signal("edge_reached", Vector2.LEFT)
+		elif mouse_pos.x > viewport_size.x - edge_threshold:
+			emit_signal("edge_reached", Vector2.RIGHT)
+		elif mouse_pos.y < edge_threshold:
+			emit_signal("edge_reached", Vector2.UP) 
+		elif mouse_pos.y > viewport_size.y - edge_threshold:
+			emit_signal("edge_reached", Vector2.DOWN)

@@ -21,6 +21,10 @@ window/size/borderless=true
 window/size/width=1280
 window/size/height=720
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/YATI/plugin.cfg", "res://addons/dd2vtt/plugin.cfg")
+
 [input]
 
 move_right={
@@ -48,3 +52,15 @@ click={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
+
+[tiled_importer]
+
+enable_json_format=true
