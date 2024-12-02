@@ -47,8 +47,11 @@ func _ready() -> void:
 	position = grid.calculate_map_position(cell)
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Set is_mouse to false if right mouse button is held
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		is_mouse = false	
 	# Navigating cells with the mouse.
-	if event is InputEventMouseMotion:
+	elif event is InputEventMouseMotion and not Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 		#cell = grid.calculate_grid_coordinates(event.position)
 		is_mouse = true
 	# Trying to select something in a cell.
@@ -92,7 +95,7 @@ func _process(_delta: float) -> void:
 		# Check if the cursor is near the edge of the screen
 		var viewport_size = get_viewport().get_size()
 		var mouse_pos = get_viewport().get_mouse_position()
-		var edge_threshold = -5  # Pixels from edge to trigger camera movement
+		var edge_threshold = 100  # Pixels from edge to trigger camera movement
 		
 		# Only emit edge signals when mouse is actually near viewport edges
 		if mouse_pos.x < edge_threshold:
