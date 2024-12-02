@@ -7,6 +7,9 @@ extends Camera2D
 
 var _target_zoom := 1.0
 var cursor: Node
+var is_panning = false
+var last_mouse_position: Vector2
+
 func _ready() -> void:
 	_target_zoom = zoom.x
 	# Connect to the cursor's edge_reached signal
@@ -24,6 +27,19 @@ func _unhandled_input(event: InputEvent) -> void:
 			# Zoom out
 			_target_zoom = max(_target_zoom - zoom_factor, min_zoom)
 			_smooth_zoom(_target_zoom, event.position)
+		# Check for right mouse button press
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				is_panning = true
+				last_mouse_position = event.position
+			else:
+				is_panning = false
+
+	# Handle panning when the right mouse button is held down
+	if is_panning and event is InputEventMouseMotion:
+		var delta = event.position - last_mouse_position
+		position -= delta / zoom.x  # Adjust position based on mouse movement
+		last_mouse_position = event.position  # Update last mouse position
 
 func _smooth_zoom(target_zoom: float, mouse_position: Vector2) -> void:
 	# Get the mouse position in viewport coordinates
