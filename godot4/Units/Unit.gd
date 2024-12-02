@@ -5,6 +5,8 @@
 class_name Unit
 extends Path2D
 
+@onready var _animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 ## Emitted when the unit reached the end of a path along which it was walking.
 signal walk_finished
 
@@ -20,6 +22,10 @@ signal walk_finished
 @export var move_speed := 600.0
 ## The distance the unit can attack from their current position
 @export var attack_range := 0
+
+@export var max_health := 100
+## Current health of the unit.
+var current_health := max_health
 
 ## Texture representing the unit.
 @export var skin: Texture:
@@ -61,6 +67,10 @@ var _is_walking := false:
 @onready var _anim_player: AnimationPlayer = $AnimationPlayer
 @onready var _path_follow: PathFollow2D = $PathFollow2D
 
+# Method to scale health based on level or difficulty.
+func scale_health(level: int) -> void:
+	max_health = 100 + (level * 20)  # Example scaling logic
+	current_health = max_health  # Reset current health to max when scaling
 
 func _ready() -> void:
 	set_process(false)
@@ -73,6 +83,10 @@ func _ready() -> void:
 	# moving the unit.
 	if not Engine.is_editor_hint():
 		curve = Curve2D.new()
+
+	# Scale health based on level or difficulty.
+	scale_health(1)
+	_animated_sprite.play("idle")
 
 
 func _process(delta: float) -> void:

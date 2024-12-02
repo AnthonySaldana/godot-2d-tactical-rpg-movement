@@ -95,7 +95,7 @@ func _process(_delta: float) -> void:
 		# Check if the cursor is near the edge of the screen
 		var viewport_size = get_viewport().get_size()
 		var mouse_pos = get_viewport().get_mouse_position()
-		var edge_threshold = 100  # Pixels from edge to trigger camera movement
+		var edge_threshold = 20  # Pixels from edge to trigger camera movement
 		
 		# Only emit edge signals when mouse is actually near viewport edges
 		if mouse_pos.x < edge_threshold:

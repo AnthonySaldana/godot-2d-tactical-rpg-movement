@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://25g8k4c350kv"]
+
+[ext_resource type="PackedScene" uid="uid://dwv5723imnxsd" path="res://GameBoard/Base_boy.tmx" id="1_dmqp6"]
+
+[node name="Base_boy" instance=ExtResource("1_dmqp6")]
+
+[node name="full" parent="." index="0"]
+visible = true

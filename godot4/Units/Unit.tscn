@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://d4mhjq651egt"]
+[gd_scene load_steps=15 format=3 uid="uid://d4mhjq651egt"]
 
 [ext_resource type="Script" path="res://Units/Unit.gd" id="1"]
 [ext_resource type="Resource" uid="uid://b18g6xn0viicu" path="res://GameBoard/Grid.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://b5ghlcxjxmmgw" path="res://Units/unit_shadow.svg" id="3"]
+[ext_resource type="Texture2D" uid="uid://erc488wn17x4" path="res://Units/Idle.png" id="4_mk7ay"]
 
 [sub_resource type="Animation" id="1"]
 length = 0.001
@@ -40,9 +41,60 @@ _data = {
 "selected": SubResource("2")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_sn4nu"]
+atlas = ExtResource("4_mk7ay")
+region = Rect2(0, 58, 128, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6o2dt"]
+atlas = ExtResource("4_mk7ay")
+region = Rect2(128, 58, 128, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nqpfv"]
+atlas = ExtResource("4_mk7ay")
+region = Rect2(256, 58, 128, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h02vp"]
+atlas = ExtResource("4_mk7ay")
+region = Rect2(384, 58, 128, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_354rh"]
+atlas = ExtResource("4_mk7ay")
+region = Rect2(512, 58, 128, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6e0e"]
+atlas = ExtResource("4_mk7ay")
+region = Rect2(640, 58, 128, 70)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mq3jx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sn4nu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6o2dt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nqpfv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h02vp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_354rh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6e0e")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
 [node name="Unit" type="Path2D"]
 script = ExtResource("1")
 grid = ExtResource("2")
+max_health = null
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 rotates = false
@@ -63,3 +115,8 @@ libraries = {
 "": SubResource("AnimationLibrary_5dan3")
 }
 autoplay = "idle"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_mq3jx")
+animation = &"idle"
+frame_progress = 0.268323
