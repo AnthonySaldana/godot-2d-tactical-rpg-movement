@@ -119,4 +119,11 @@ autoplay = "idle"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_mq3jx")
 animation = &"idle"
-frame_progress = 0.268323
+frame_progress = 0.996767
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -8.0
+offset_top = -52.0
+offset_right = 20.0
+offset_bottom = -25.0
+scale = Vector2(0.580483, 0.536243)

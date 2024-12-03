@@ -16,6 +16,6 @@ texture_region_size = Vector2i(80, 80)
 0:0/0/modulate = Color(1, 1, 1, 0.305882)
 
 [resource]
-tile_size = Vector2i(20, 20)
+tile_size = Vector2i(80, 80)
 sources/0 = SubResource("TileSetAtlasSource_bf1i4")
 sources/1 = SubResource("TileSetAtlasSource_ps8mp")

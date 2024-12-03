@@ -66,11 +66,19 @@ var _is_walking := false:
 @onready var _sprite: Sprite2D = $PathFollow2D/Sprite
 @onready var _anim_player: AnimationPlayer = $AnimationPlayer
 @onready var _path_follow: PathFollow2D = $PathFollow2D
+@onready var _health_bar: ProgressBar = $HealthBar 
 
 # Method to scale health based on level or difficulty.
 func scale_health(level: int) -> void:
 	max_health = 100 + (level * 20)  # Example scaling logic
 	current_health = max_health  # Reset current health to max when scaling
+	update_health_bar()  # Update health bar after scaling
+
+
+	## Update the health bar when health changes
+func update_health_bar() -> void:
+	_health_bar.value = current_health  # Set the health bar value to current health
+
 
 func _ready() -> void:
 	set_process(false)
@@ -99,6 +107,7 @@ func _process(delta: float) -> void:
 		position = grid.calculate_map_position(cell)
 		curve.clear_points()
 		emit_signal("walk_finished")
+		update_health_bar() 
 
 
 ## Starts walking along the `path`.
