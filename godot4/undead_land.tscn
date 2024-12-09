@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bv1ul1qynrdwd" path="res://GameBoard/Cursor/Cursor.tscn" id="5_vw06n"]
 [ext_resource type="PackedScene" uid="uid://dxyfefsgkgc4l" path="res://GameBoard/UnitPath.tscn" id="8_y7yjb"]
 
-[sub_resource type="Curve2D" id="Curve2D_e8ptq"]
+[sub_resource type="Curve2D" id="Curve2D_4mw3j"]
 resource_local_to_scene = true
 
 [node name="Undead_land" instance=ExtResource("1_jrrtn")]
@@ -36,10 +36,9 @@ position = Vector2(608, 465)
 [node name="Bear" parent="." index="26" instance=ExtResource("2_5vquy")]
 position = Vector2(492.625, 350)
 scale = Vector2(0.3, 0.3)
-curve = SubResource("Curve2D_e8ptq")
+curve = SubResource("Curve2D_4mw3j")
 move_range = 2
 attack_range = 3
-max_health = 100
 skin = ExtResource("3_1wjrm")
 skin_offset = Vector2(2, 9)
 

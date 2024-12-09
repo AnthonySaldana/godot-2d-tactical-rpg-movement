@@ -16,17 +16,53 @@ var _active_unit: Unit
 var _walkable_cells := []
 var _attackable_cells := []
 var _movement_costs
+var _current_turn: int = 0  # Track the current turn
+var _turn_order: Array = []  # Array to hold the order of units
 
 @onready var _unit_overlay: UnitOverlay = $UnitOverlay
 @onready var _unit_path: UnitPath = $UnitPath
 @onready var _map: TileMapLayer = $Map
+@onready var _camera: Camera2D = $CameraController # Removed type annotation since CameraController type not found
 
 const MAX_VALUE: int = 99999
 
 func _ready() -> void:
 	_movement_costs = _map.get_movement_costs(grid)
 	_reinitialize()
+	_setup_turn_order()  # Initialize the turn order
 
+func _setup_turn_order() -> void:
+	# Populate the turn order with all units
+	for unit in _units.values():
+		_turn_order.append(unit)
+
+func _next_turn() -> void:
+	# Move to the next turn
+	_current_turn = (_current_turn + 1) % _turn_order.size()
+	_active_unit = _turn_order[_current_turn]
+	
+	# Reset the active unit's state if needed
+	_active_unit.is_selected = true
+	_active_unit.is_wait = false  # Reset wait state if applicable
+
+	# Recalculate walkable and attackable cells
+	_walkable_cells = get_walkable_cells(_active_unit)
+	_attackable_cells = get_attackable_cells(_active_unit)
+
+	# Debugging: Print the active unit and its walkable cells
+	# print("Active Unit: ", _active_unit)
+	# print("Walkable Cells: ", _walkable_cells)
+	# print("Attackable Cells: ", _attackable_cells)
+
+	# Update the unit overlay to reflect the new state
+	_unit_overlay.draw_attackable_cells(_attackable_cells)
+	_unit_overlay.draw_walkable_cells(_walkable_cells)
+
+	_unit_path.initialize(_walkable_cells)
+
+	# Center the camera on the active unit
+	# var camera = get_node("../CameraController")  # Adjust the path if necessary
+	_camera.position = _active_unit.position
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _active_unit and event.is_action_pressed("ui_cancel"):
@@ -181,13 +217,13 @@ func _dijkstra(cell: Vector2, max_distance: int, attackable_check: bool) -> Arra
 func _move_active_unit(new_cell: Vector2) -> void:
 	if is_occupied(new_cell) or not new_cell in _walkable_cells:
 		return
-	# warning-ignore:return_value_discarded
 	_units.erase(_active_unit.cell)
 	_units[new_cell] = _active_unit
-	_deselect_active_unit()
+	_active_unit.cell = new_cell
 	_active_unit.walk_along(_unit_path.current_path)
 	await _active_unit.walk_finished
 	_clear_active_unit()
+	_next_turn()  # Move to the next turn after the unit has moved
 
 
 ## Selects the unit in the `cell` if there's one there.
@@ -223,19 +259,23 @@ func _hover_display(cell: Vector2) -> void:
 ## Deselects the active unit, clearing the cells overlay and interactive path drawing.
 func _deselect_active_unit() -> void:
 	_active_unit.is_selected = false
+	_walkable_cells.clear()
+	_attackable_cells.clear()
 	_unit_overlay.clear()
 	_unit_path.stop()
 
 
 ## Clears the reference to the _active_unit and the corresponding walkable cells.
 func _clear_active_unit() -> void:
-	_active_unit = null
+	_active_unit.is_selected = false
 	_walkable_cells.clear()
+	_attackable_cells.clear()
+	_unit_overlay.clear()
 
 
 ## Selects or moves a unit based on where the cursor is.
 func _on_Cursor_accept_pressed(cell: Vector2) -> void:
-	if not _active_unit:
+	if not _active_unit or _active_unit.is_selected == false:
 		_select_unit(cell)
 	elif _active_unit.is_selected:
 		_move_active_unit(cell)

@@ -59,8 +59,8 @@ func _smooth_zoom(target_zoom: float, mouse_position: Vector2) -> void:
 
 func _on_edge_reached(direction: Vector2) -> void:
 	var move_speed = 5.0  # Adjust the speed of the camera movement
-	print("direction")
-	print(direction)
+	# print("direction")
+	# print(direction)
 	if direction == Vector2.LEFT:
 		position.x -= move_speed
 	elif direction == Vector2.RIGHT:
