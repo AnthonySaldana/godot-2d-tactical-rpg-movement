@@ -154,6 +154,8 @@ func take_damage(damage: int) -> void:
 	# Play hit animation or effect if you have one
 	if _animated_sprite:
 		_animated_sprite.play("hit")
+		await _animated_sprite.animation_finished
+		_animated_sprite.play("idle")
 	
 	# Emit a signal that damage was taken (useful for UI updates)
 	# You'll need to declare this signal at the top of the file

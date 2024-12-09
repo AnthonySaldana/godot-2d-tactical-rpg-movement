@@ -14682,22 +14682,22 @@ sources/7 = SubResource("TileSetAtlasSource_mybh8")
 sources/8 = SubResource("TileSetAtlasSource_me0po")
 sources/9 = SubResource("TileSetAtlasSource_fou8p")
 
-[sub_resource type="Curve2D" id="Curve2D_2ln8p"]
+[sub_resource type="Curve2D" id="Curve2D_xuayf"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_mgkh0"]
+[sub_resource type="Curve2D" id="Curve2D_klfl2"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_16jwd"]
+[sub_resource type="Curve2D" id="Curve2D_j24cv"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_lwc2p"]
+[sub_resource type="Curve2D" id="Curve2D_4h0je"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_xbknv"]
+[sub_resource type="Curve2D" id="Curve2D_wkea1"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_mh4ee"]
+[sub_resource type="Curve2D" id="Curve2D_uhryp"]
 resource_local_to_scene = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vd8ip"]
@@ -14823,7 +14823,7 @@ position = Vector2(608, 465)
 [node name="EnemyBear" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(1, 0.19, 0.19, 1)
 position = Vector2(200, 600)
-curve = SubResource("Curve2D_2ln8p")
+curve = SubResource("Curve2D_xuayf")
 is_enemy = true
 move_range = 3
 attack_range = 2
@@ -14835,7 +14835,7 @@ skin_offset = Vector2(2, 9)
 [node name="EnemyBear2" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(1, 0.06, 0.06, 1)
 position = Vector2(700, 600)
-curve = SubResource("Curve2D_mgkh0")
+curve = SubResource("Curve2D_klfl2")
 is_enemy = true
 move_range = 3
 attack_range = 2
@@ -14846,7 +14846,7 @@ skin_offset = Vector2(2, 9)
 
 [node name="Bear" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(500, 480)
-curve = SubResource("Curve2D_16jwd")
+curve = SubResource("Curve2D_j24cv")
 move_range = 2
 attack_range = 3
 attack_power = 10
@@ -14855,7 +14855,7 @@ skin_offset = Vector2(2, 9)
 
 [node name="Cat" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(850.293, 412.465)
-curve = SubResource("Curve2D_lwc2p")
+curve = SubResource("Curve2D_4h0je")
 move_range = 4
 attack_range = 1
 attack_power = 10
@@ -14864,7 +14864,7 @@ skin_offset = Vector2(5, 12)
 
 [node name="Squirrel" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(355.298, 298.556)
-curve = SubResource("Curve2D_xbknv")
+curve = SubResource("Curve2D_wkea1")
 move_range = 2
 attack_range = 2
 attack_power = 10
@@ -14874,7 +14874,7 @@ skin_offset = Vector2(6, 17)
 [node name="asteroid" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(0.835762, 0.716936, 0.720745, 1)
 position = Vector2(200, 100)
-curve = SubResource("Curve2D_mh4ee")
+curve = SubResource("Curve2D_uhryp")
 move_range = 3
 attack_range = 2
 attack_power = 10
