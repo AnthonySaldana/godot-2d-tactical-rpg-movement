@@ -215,15 +215,33 @@ func _dijkstra(cell: Vector2, max_distance: int, attackable_check: bool) -> Arra
 
 ## Updates the _units dictionary with the target position for the unit and asks the _active_unit to walk to it.
 func _move_active_unit(new_cell: Vector2) -> void:
-	if is_occupied(new_cell) or not new_cell in _walkable_cells:
+	# First check if we can attack something at the target cell
+	if is_occupied(new_cell) and new_cell in _attackable_cells:
+		_check_for_combat(_active_unit.cell, new_cell)
+		_clear_active_unit()
+		await get_tree().create_timer(1.0).timeout # Wait for the damage animation to finish
+		_next_turn()
 		return
+		
+	# If no combat occurred and the cell is walkable, move there
+	if not new_cell in _walkable_cells:
+		return
+		
+	# Check for any units along the path that we might attack
+	for cell in _unit_path.current_path:
+		if is_occupied(cell) and cell in _attackable_cells:
+			_check_for_combat(_active_unit.cell, cell)
+			# Stop at the cell before the enemy
+			new_cell = _unit_path.current_path[_unit_path.current_path.find(cell) - 1]
+			break
+	
 	_units.erase(_active_unit.cell)
 	_units[new_cell] = _active_unit
 	_active_unit.cell = new_cell
 	_active_unit.walk_along(_unit_path.current_path)
 	await _active_unit.walk_finished
 	_clear_active_unit()
-	_next_turn()  # Move to the next turn after the unit has moved
+	_next_turn()
 
 
 ## Selects the unit in the `cell` if there's one there.
@@ -290,3 +308,27 @@ func _on_Cursor_moved(new_cell: Vector2) -> void:
 		_unit_overlay.clear()
 	if _units.has(new_cell) and _active_unit == null:
 		_hover_display(new_cell)
+
+## Check if there's a unit at the target cell and handle combat if necessary
+func _check_for_combat(attacker_cell: Vector2, target_cell: Vector2) -> void:
+	if is_occupied(target_cell):
+		var target_unit = _units[target_cell]
+		# Only allow attacks between enemies and allies
+		if attacker_cell != target_cell and target_unit.is_enemy != _active_unit.is_enemy:
+			_initiate_combat(_active_unit, target_unit)
+
+## Handle the combat between two units
+func _initiate_combat(attacker: Unit, defender: Unit) -> void:
+	# Apply damage to the defender
+	defender.take_damage(attacker.attack_power * attacker.unit_level)
+	defender._flash_damage()
+	
+	# Check if the defender is defeated
+	if defender.current_health <= 0:
+		# Remove the defeated unit from the game
+		_units.erase(defender.cell)
+		defender.queue_free()
+		
+		# Also remove it from turn order if it exists there
+		if defender in _turn_order:
+			_turn_order.erase(defender)

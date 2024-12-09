@@ -39,6 +39,8 @@ scale = Vector2(0.3, 0.3)
 curve = SubResource("Curve2D_4mw3j")
 move_range = 2
 attack_range = 3
+attack_power = null
+unit_level = null
 skin = ExtResource("3_1wjrm")
 skin_offset = Vector2(2, 9)
 

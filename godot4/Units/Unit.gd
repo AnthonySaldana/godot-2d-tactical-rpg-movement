@@ -5,10 +5,13 @@
 class_name Unit
 extends Path2D
 
-@onready var _animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _animated_sprite: AnimatedSprite2D = $PathFollow2D/AnimatedSprite2D
 
 ## Emitted when the unit reached the end of a path along which it was walking.
 signal walk_finished
+## Add these signals at the top of the Unit class
+signal damage_taken(amount)
+signal unit_defeated
 
 ## Shared resource of type Grid, used to calculate map coordinates.
 @export var grid: Resource
@@ -22,8 +25,13 @@ signal walk_finished
 @export var move_speed := 600.0
 ## The distance the unit can attack from their current position
 @export var attack_range := 0
-
+## The unit's attack power
+@export var attack_power := 10
+## The unit's maximum health
 @export var max_health := 100
+## The unit's current level
+@export var unit_level := 1
+
 ## Current health of the unit.
 var current_health := max_health
 
@@ -70,14 +78,18 @@ var _is_walking := false:
 
 # Method to scale health based on level or difficulty.
 func scale_health(level: int) -> void:
-	max_health = 100 + (level * 20)  # Example scaling logic
+	max_health = max_health + (level * 20)  # Example scaling logic
 	current_health = max_health  # Reset current health to max when scaling
 	update_health_bar()  # Update health bar after scaling
 
 
 	## Update the health bar when health changes
 func update_health_bar() -> void:
-	_health_bar.value = current_health  # Set the health bar value to current health
+	_health_bar.value = current_health
+	_health_bar.visible = current_health < max_health
+	
+	if current_health <= 0:
+		emit_signal("unit_defeated")
 
 
 func _ready() -> void:
@@ -93,8 +105,11 @@ func _ready() -> void:
 		curve = Curve2D.new()
 
 	# Scale health based on level or difficulty.
-	scale_health(1)
+	scale_health(unit_level)
 	_animated_sprite.play("idle")
+	
+	# Only show health bar when damaged
+	_health_bar.visible = current_health < max_health
 
 
 func _process(delta: float) -> void:
@@ -121,3 +136,25 @@ func walk_along(path: PackedVector2Array) -> void:
 		curve.add_point(grid.calculate_map_position(point) - position)
 	cell = path[-1]
 	_is_walking = true
+
+## Take damage and update health
+func take_damage(damage: int) -> void:
+	current_health = max(0, current_health - damage)
+	update_health_bar()
+	
+	# Play hit animation or effect if you have one
+	if _animated_sprite:
+		_animated_sprite.play("hit")
+	
+	# Emit a signal that damage was taken (useful for UI updates)
+	# You'll need to declare this signal at the top of the file
+	emit_signal("damage_taken", damage)
+
+## Add a flash effect when taking damage
+func _flash_damage() -> void:
+	if not _animated_sprite:
+		return
+	
+	var tween = create_tween()
+	tween.tween_property(_animated_sprite, "modulate", Color.RED, 0.3)
+	tween.tween_property(_animated_sprite, "modulate", Color.WHITE, 0.3)
