@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=4 uid="uid://30jb4kc5kf5p"]
+[gd_scene load_steps=60 format=4 uid="uid://30jb4kc5kf5p"]
 
 [ext_resource type="PackedScene" uid="uid://bv1ul1qynrdwd" path="res://GameBoard/Cursor/Cursor.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://d4mhjq651egt" path="res://Units/Unit.tscn" id="2"]
@@ -23,6 +23,8 @@
 [ext_resource type="Texture2D" uid="uid://l6p5q8d0hn5b" path="res://Background/Tiled_files/Objects_animated3.png" id="18_8yity"]
 [ext_resource type="Texture2D" uid="uid://bn5dffktatxuj" path="res://Units/3388919684.png" id="18_226ku"]
 [ext_resource type="Texture2D" uid="uid://d2s3e62qgaydv" path="res://Background/Tiled_files/details.png" id="19_46t7y"]
+[ext_resource type="Texture2D" uid="uid://b1rp6jwv8ogmu" path="res://Items/health_base-Sheet-Sheet.png" id="25_kwc8g"]
+[ext_resource type="Script" path="res://Items/HealthItem.gd" id="25_wkc36"]
 [ext_resource type="Script" path="res://GameBoard/CameraController.gd" id="27_hjd3m"]
 
 [sub_resource type="GDScript" id="GDScript_32x2p"]
@@ -14680,27 +14682,111 @@ sources/7 = SubResource("TileSetAtlasSource_mybh8")
 sources/8 = SubResource("TileSetAtlasSource_me0po")
 sources/9 = SubResource("TileSetAtlasSource_fou8p")
 
-[sub_resource type="Curve2D" id="Curve2D_ie71u"]
+[sub_resource type="Curve2D" id="Curve2D_xs5fs"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_cjo07"]
+[sub_resource type="Curve2D" id="Curve2D_cacom"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_kicml"]
+[sub_resource type="Curve2D" id="Curve2D_rgb05"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_xxnxh"]
+[sub_resource type="Curve2D" id="Curve2D_vkimc"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_wdp1q"]
+[sub_resource type="Curve2D" id="Curve2D_gxrpy"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_536v0"]
+[sub_resource type="Curve2D" id="Curve2D_uswcx"]
 resource_local_to_scene = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vd8ip"]
+atlas = ExtResource("25_kwc8g")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a20a5"]
+atlas = ExtResource("25_kwc8g")
+region = Rect2(80, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfev0"]
+atlas = ExtResource("25_kwc8g")
+region = Rect2(160, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b55bq"]
+atlas = ExtResource("25_kwc8g")
+region = Rect2(240, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgf66"]
+atlas = ExtResource("25_kwc8g")
+region = Rect2(320, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvgsb"]
+atlas = ExtResource("25_kwc8g")
+region = Rect2(400, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70hse"]
+atlas = ExtResource("25_kwc8g")
+region = Rect2(480, 0, 80, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rfkii"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vd8ip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a20a5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfev0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b55bq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgf66")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvgsb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70hse")
+}],
+"loop": true,
+"name": &"collect",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vd8ip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a20a5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfev0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b55bq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgf66")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvgsb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70hse")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [node name="Main" type="Node2D"]
 
 [node name="GameBoard" type="Node2D" parent="."]
+position = Vector2(-1, -2)
 script = ExtResource("3")
 grid = ExtResource("4")
 
@@ -14737,7 +14823,7 @@ position = Vector2(608, 465)
 [node name="EnemyBear" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(1, 0.19, 0.19, 1)
 position = Vector2(200, 600)
-curve = SubResource("Curve2D_ie71u")
+curve = SubResource("Curve2D_xs5fs")
 is_enemy = true
 move_range = 3
 attack_range = 2
@@ -14748,8 +14834,8 @@ skin_offset = Vector2(2, 9)
 
 [node name="EnemyBear2" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(1, 0.06, 0.06, 1)
-position = Vector2(450, 600)
-curve = SubResource("Curve2D_cjo07")
+position = Vector2(700, 600)
+curve = SubResource("Curve2D_cacom")
 is_enemy = true
 move_range = 3
 attack_range = 2
@@ -14760,7 +14846,7 @@ skin_offset = Vector2(2, 9)
 
 [node name="Bear" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(500, 480)
-curve = SubResource("Curve2D_kicml")
+curve = SubResource("Curve2D_rgb05")
 move_range = 2
 attack_range = 3
 attack_power = 10
@@ -14769,7 +14855,7 @@ skin_offset = Vector2(2, 9)
 
 [node name="Cat" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(850.293, 412.465)
-curve = SubResource("Curve2D_xxnxh")
+curve = SubResource("Curve2D_vkimc")
 move_range = 4
 attack_range = 1
 attack_power = 10
@@ -14778,7 +14864,7 @@ skin_offset = Vector2(5, 12)
 
 [node name="Squirrel" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(355.298, 298.556)
-curve = SubResource("Curve2D_wdp1q")
+curve = SubResource("Curve2D_gxrpy")
 move_range = 2
 attack_range = 2
 attack_power = 10
@@ -14788,13 +14874,29 @@ skin_offset = Vector2(6, 17)
 [node name="asteroid" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(0.835762, 0.716936, 0.720745, 1)
 position = Vector2(200, 100)
-curve = SubResource("Curve2D_536v0")
+curve = SubResource("Curve2D_uswcx")
 move_range = 3
 attack_range = 2
 attack_power = 10
 unit_level = 1
 skin = ExtResource("18_226ku")
 skin_offset = Vector2(2, 9)
+
+[node name="Items" type="Node2D" parent="GameBoard"]
+
+[node name="HealthBase" type="Node2D" parent="GameBoard/Items"]
+position = Vector2(1001, 599)
+scale = Vector2(0.75, 0.75)
+script = ExtResource("25_wkc36")
+healing_amount = 50
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GameBoard/Items/HealthBase"]
+sprite_frames = SubResource("SpriteFrames_rfkii")
+animation = &"collect"
+
+[node name="Area2D" type="Area2D" parent="GameBoard/Items/HealthBase"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameBoard/Items/HealthBase/Area2D"]
 
 [connection signal="accept_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_accept_pressed"]
 [connection signal="moved" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_moved"]
