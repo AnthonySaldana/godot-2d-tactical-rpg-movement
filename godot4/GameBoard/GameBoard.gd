@@ -243,14 +243,13 @@ func _move_active_unit(new_cell: Vector2) -> void:
 	_active_unit.cell = new_cell
 	_active_unit.walk_along(_unit_path.current_path)
 	await _active_unit.walk_finished
-	_clear_active_unit()
-	_next_turn()
-
 	# Check for items at the destination
 	if _items.has(new_cell):
 		var item = _items[new_cell]
 		_collect_item(item, _active_unit)
 		_items.erase(new_cell)
+	_clear_active_unit()
+	_next_turn()
 
 ## Selects the unit in the `cell` if there's one there.
 ## Sets it as the `_active_unit` and draws its walkable cells and interactive move path. 
@@ -350,4 +349,4 @@ func _collect_item(item: Node2D, unit: Unit) -> void:
 	# Handle item collection (healing, effects, etc.)
 	if item.is_in_group("healing_items"):
 		unit.heal(item.healing_amount)
-	# item.queue_free()
+		item.queue_free()

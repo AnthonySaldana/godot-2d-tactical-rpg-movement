@@ -38,7 +38,6 @@ var scaled_max_health := max_health
 var current_health: int:
 	set(value):
 		current_health = value
-		update_health_bar()
 
 ## Texture representing the unit.
 @export var skin: Texture:
@@ -175,7 +174,7 @@ func heal(amount: int) -> void:
 	print("max health: ", scaled_max_health)
 	print("Healing unit for ", amount, " health")
 	current_health = min(scaled_max_health, current_health + amount)
+	update_health_bar()
 	await get_tree().create_timer(0.2).timeout
 	print("after healing: ", current_health)
-	update_health_bar()
 	emit_signal("healed", amount)
