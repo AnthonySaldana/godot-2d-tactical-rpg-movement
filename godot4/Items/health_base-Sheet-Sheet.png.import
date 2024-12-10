@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgs75j2ldqlyc"
-path="res://.godot/imported/Idle.png-801299fb7df70e4eb203f1c18b1d00a1.ctex"
+uid="uid://b1rp6jwv8ogmu"
+path="res://.godot/imported/health_base-Sheet-Sheet.png-6974992f08a70323672f990231bb31f4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Units/Idle.png"
-dest_files=["res://.godot/imported/Idle.png-801299fb7df70e4eb203f1c18b1d00a1.ctex"]
+source_file="res://Items/health_base-Sheet-Sheet.png"
+dest_files=["res://.godot/imported/health_base-Sheet-Sheet.png-6974992f08a70323672f990231bb31f4.ctex"]
 
 [params]
 

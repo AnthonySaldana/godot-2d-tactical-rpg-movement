@@ -12,7 +12,7 @@ signal walk_finished
 ## Add these signals at the top of the Unit class
 signal damage_taken(amount)
 signal unit_defeated
-
+signal healed(amount)
 ## Shared resource of type Grid, used to calculate map coordinates.
 @export var grid: Resource
 ## Designate current unit as enemy
@@ -32,8 +32,12 @@ signal unit_defeated
 ## The unit's current level
 @export var unit_level := 1
 
+var scaled_max_health := max_health
+
 ## Current health of the unit.
-var current_health := max_health
+var current_health: int:
+	set(value):
+		current_health = value
 
 ## Texture representing the unit.
 @export var skin: Texture:
@@ -78,15 +82,19 @@ var _is_walking := false:
 
 # Method to scale health based on level or difficulty.
 func scale_health(level: int) -> void:
-	max_health = max_health + (level * 20)  # Example scaling logic
-	current_health = max_health  # Reset current health to max when scaling
+	scaled_max_health = max_health + (level * 20)  # Example scaling logic
+	current_health = scaled_max_health  # Reset current health to max when scaling
 	update_health_bar()  # Update health bar after scaling
 
 
 	## Update the health bar when health changes
 func update_health_bar() -> void:
-	_health_bar.value = current_health
-	_health_bar.visible = current_health < max_health
+	print("current health from bar: ", current_health)
+	_health_bar.value = (float(current_health) / scaled_max_health) * 100
+	_health_bar.visible = current_health < scaled_max_health
+
+	print("scaled max health: ", scaled_max_health)
+	print("health bar value: ", _health_bar.value)
 	
 	if current_health <= 0:
 		emit_signal("unit_defeated")
@@ -109,7 +117,7 @@ func _ready() -> void:
 	_animated_sprite.play("idle")
 	
 	# Only show health bar when damaged
-	_health_bar.visible = current_health < max_health
+	_health_bar.visible = current_health < scaled_max_health
 
 
 func _process(delta: float) -> void:
@@ -122,7 +130,7 @@ func _process(delta: float) -> void:
 		position = grid.calculate_map_position(cell)
 		curve.clear_points()
 		emit_signal("walk_finished")
-		update_health_bar() 
+		# update_health_bar() 
 
 
 ## Starts walking along the `path`.
@@ -145,6 +153,8 @@ func take_damage(damage: int) -> void:
 	# Play hit animation or effect if you have one
 	if _animated_sprite:
 		_animated_sprite.play("hit")
+		await _animated_sprite.animation_finished
+		_animated_sprite.play("idle")
 	
 	# Emit a signal that damage was taken (useful for UI updates)
 	# You'll need to declare this signal at the top of the file
@@ -158,3 +168,13 @@ func _flash_damage() -> void:
 	var tween = create_tween()
 	tween.tween_property(_animated_sprite, "modulate", Color.RED, 0.3)
 	tween.tween_property(_animated_sprite, "modulate", Color.WHITE, 0.3)
+
+func heal(amount: int) -> void:
+	print("before healing: ", current_health)
+	print("max health: ", scaled_max_health)
+	print("Healing unit for ", amount, " health")
+	current_health = min(scaled_max_health, current_health + amount)
+	update_health_bar()
+	await get_tree().create_timer(0.2).timeout
+	print("after healing: ", current_health)
+	emit_signal("healed", amount)

@@ -18,11 +18,13 @@ var _attackable_cells := []
 var _movement_costs
 var _current_turn: int = 0  # Track the current turn
 var _turn_order: Array = []  # Array to hold the order of units
+var _items := {}  # Dictionary to track items on the board
 
 @onready var _unit_overlay: UnitOverlay = $UnitOverlay
 @onready var _unit_path: UnitPath = $UnitPath
 @onready var _map: TileMapLayer = $Map
 @onready var _camera: Camera2D = $CameraController # Removed type annotation since CameraController type not found
+@onready var _items_node: Node2D = $Items
 
 const MAX_VALUE: int = 99999
 
@@ -30,6 +32,7 @@ func _ready() -> void:
 	_movement_costs = _map.get_movement_costs(grid)
 	_reinitialize()
 	_setup_turn_order()  # Initialize the turn order
+	_initialize_items()
 
 func _setup_turn_order() -> void:
 	# Populate the turn order with all units
@@ -240,9 +243,13 @@ func _move_active_unit(new_cell: Vector2) -> void:
 	_active_unit.cell = new_cell
 	_active_unit.walk_along(_unit_path.current_path)
 	await _active_unit.walk_finished
+	# Check for items at the destination
+	if _items.has(new_cell):
+		var item = _items[new_cell]
+		_collect_item(item, _active_unit)
+		_items.erase(new_cell)
 	_clear_active_unit()
 	_next_turn()
-
 
 ## Selects the unit in the `cell` if there's one there.
 ## Sets it as the `_active_unit` and draws its walkable cells and interactive move path. 
@@ -332,3 +339,14 @@ func _initiate_combat(attacker: Unit, defender: Unit) -> void:
 		# Also remove it from turn order if it exists there
 		if defender in _turn_order:
 			_turn_order.erase(defender)
+
+func _initialize_items() -> void:
+	for item_node in _items_node.get_children():  # Assuming you'll group items under an Items node
+		var cell = grid.calculate_grid_coordinates(item_node.position)
+		_items[cell] = item_node
+
+func _collect_item(item: Node2D, unit: Unit) -> void:
+	# Handle item collection (healing, effects, etc.)
+	if item.is_in_group("healing_items"):
+		unit.heal(item.healing_amount)
+		item.queue_free()
