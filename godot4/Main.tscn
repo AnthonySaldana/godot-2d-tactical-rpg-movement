@@ -387,22 +387,22 @@ movement_data = {
 10: 1
 }
 
-[sub_resource type="Curve2D" id="Curve2D_7vwyw"]
+[sub_resource type="Curve2D" id="Curve2D_fhcyp"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_a34t5"]
+[sub_resource type="Curve2D" id="Curve2D_upsk0"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_yqo3u"]
+[sub_resource type="Curve2D" id="Curve2D_0wqxt"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_m8cme"]
+[sub_resource type="Curve2D" id="Curve2D_s1xhe"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_fkjts"]
+[sub_resource type="Curve2D" id="Curve2D_jafev"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_8t2jr"]
+[sub_resource type="Curve2D" id="Curve2D_1m1nq"]
 resource_local_to_scene = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vd8ip"]
@@ -522,7 +522,7 @@ position = Vector2(348, 535)
 [node name="EnemyBear" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(1, 0.19, 0.19, 1)
 position = Vector2(200, 600)
-curve = SubResource("Curve2D_7vwyw")
+curve = SubResource("Curve2D_fhcyp")
 is_enemy = true
 move_range = 3
 attack_range = 2
@@ -535,7 +535,7 @@ unit_name = "Space Pirate 768"
 [node name="EnemyBear2" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(1, 0.06, 0.06, 1)
 position = Vector2(700, 600)
-curve = SubResource("Curve2D_a34t5")
+curve = SubResource("Curve2D_upsk0")
 is_enemy = true
 move_range = 3
 attack_range = 2
@@ -547,7 +547,7 @@ unit_name = "Space Pirate 100"
 
 [node name="Bear" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(500, 480)
-curve = SubResource("Curve2D_yqo3u")
+curve = SubResource("Curve2D_0wqxt")
 move_range = 2
 attack_range = 3
 unit_level = 2
@@ -556,7 +556,7 @@ unit_name = "Player"
 
 [node name="Cat" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(850.293, 412.465)
-curve = SubResource("Curve2D_m8cme")
+curve = SubResource("Curve2D_s1xhe")
 move_range = 4
 attack_range = 1
 skin_offset = Vector2(5, 12)
@@ -564,7 +564,7 @@ unit_name = "Space Pirate 970"
 
 [node name="Squirrel" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(355.298, 298.556)
-curve = SubResource("Curve2D_fkjts")
+curve = SubResource("Curve2D_jafev")
 move_range = 2
 attack_range = 2
 skin_offset = Vector2(6, 17)
@@ -573,7 +573,7 @@ unit_name = "Space Pirate 370"
 [node name="asteroid" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(0.835762, 0.716936, 0.720745, 1)
 position = Vector2(200, 100)
-curve = SubResource("Curve2D_8t2jr")
+curve = SubResource("Curve2D_1m1nq")
 move_range = 3
 attack_range = 2
 skin = ExtResource("18_226ku")
@@ -600,13 +600,14 @@ animation = &"collect"
 follow_viewport_scale = 1000.0
 
 [node name="UnitList" parent="CanvasLayer" instance=ExtResource("1_875r7")]
+anchors_preset = 0
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 0.0
 offset_top = 0.0
-offset_bottom = 200.0
+mouse_filter = 2
 
 [connection signal="accept_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_accept_pressed"]
 [connection signal="moved" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_moved"]
