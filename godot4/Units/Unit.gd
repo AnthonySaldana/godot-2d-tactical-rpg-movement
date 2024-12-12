@@ -75,10 +75,13 @@ var _is_walking := false:
 		_is_walking = value
 		set_process(_is_walking)
 
+@export var unit_name := "Space Pirate " + str(randi() % 1000)
+
 @onready var _sprite: Sprite2D = $PathFollow2D/Sprite
 @onready var _anim_player: AnimationPlayer = $AnimationPlayer
 @onready var _path_follow: PathFollow2D = $PathFollow2D
 @onready var _health_bar: ProgressBar = $HealthBar 
+@onready var _name_label: Label = $NameLabel
 
 # Method to scale health based on level or difficulty.
 func scale_health(level: int) -> void:
@@ -102,6 +105,7 @@ func update_health_bar() -> void:
 
 func _ready() -> void:
 	set_process(false)
+	add_to_group("units")
 	_path_follow.rotates = false
 	
 	cell = grid.calculate_grid_coordinates(position)
@@ -118,6 +122,7 @@ func _ready() -> void:
 	
 	# Only show health bar when damaged
 	_health_bar.visible = current_health < scaled_max_health
+	_name_label.text = unit_name
 
 
 func _process(delta: float) -> void:

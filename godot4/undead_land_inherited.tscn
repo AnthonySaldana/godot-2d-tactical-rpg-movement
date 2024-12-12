@@ -1,9 +1,0 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvel8b20jmo5x"]
-
-[ext_resource type="PackedScene" uid="uid://cinu17sn0wrd3" path="res://Background/Tiled_files/Undead_land.tmx" id="1_70y6n"]
-[ext_resource type="Script" path="res://GameBoard/GameBoard.gd" id="2_atfv0"]
-[ext_resource type="Resource" uid="uid://b18g6xn0viicu" path="res://GameBoard/Grid.tres" id="3_8iy6c"]
-
-[node name="Undead_land" instance=ExtResource("1_70y6n")]
-script = ExtResource("2_atfv0")
-grid = ExtResource("3_8iy6c")

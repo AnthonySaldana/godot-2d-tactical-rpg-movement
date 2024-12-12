@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://djc7axvmv5lox"]
+
+[ext_resource type="Script" path="res://UI/UnitList/unit_list_entry.gd" id="1_qgpao"]
+
+[node name="UnitListEntry" type="HBoxContainer"]
+clip_contents = true
+anchors_preset = -1
+anchor_right = 0.298
+anchor_bottom = 0.049
+offset_right = -0.296021
+offset_bottom = 0.247999
+script = ExtResource("1_qgpao")
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Unit Name"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+value = 75.0

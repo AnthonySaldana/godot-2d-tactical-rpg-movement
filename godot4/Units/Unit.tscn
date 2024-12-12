@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d4mhjq651egt"]
+[gd_scene load_steps=22 format=3 uid="uid://d4mhjq651egt"]
 
 [ext_resource type="Script" path="res://Units/Unit.gd" id="1"]
 [ext_resource type="Resource" uid="uid://b18g6xn0viicu" path="res://GameBoard/Grid.tres" id="2"]
@@ -132,6 +132,9 @@ _data = {
 "selected": SubResource("2")
 }
 
+[sub_resource type="LabelSettings" id="LabelSettings_nfxkn"]
+font_size = 10
+
 [node name="Unit" type="Path2D"]
 script = ExtResource("1")
 grid = ExtResource("2")
@@ -161,8 +164,17 @@ libraries = {
 autoplay = "idle"
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -8.0
-offset_top = -52.0
-offset_right = 20.0
-offset_bottom = -25.0
+offset_left = -10.0
+offset_top = -66.0
+offset_right = 18.0
+offset_bottom = -39.0
 scale = Vector2(0.580483, 0.536243)
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -44.0
+offset_top = -49.0
+offset_right = 45.0
+offset_bottom = -35.0
+text = "Unit Name"
+label_settings = SubResource("LabelSettings_nfxkn")
+horizontal_alignment = 1
