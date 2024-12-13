@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://30jb4kc5kf5p"]
+[gd_scene load_steps=42 format=4 uid="uid://30jb4kc5kf5p"]
 
 [ext_resource type="PackedScene" uid="uid://bv1ul1qynrdwd" path="res://GameBoard/Cursor/Cursor.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://8jhj2m4nrjsg" path="res://UI/UnitList/UnitList.tscn" id="1_875r7"]
@@ -12,6 +12,9 @@
 [ext_resource type="TileSet" uid="uid://degjdu8pxcsyt" path="res://UnitOverlay/unit_overlay_tileset.tres" id="5_ff0pm"]
 [ext_resource type="PackedScene" uid="uid://dxyfefsgkgc4l" path="res://GameBoard/UnitPath.tscn" id="6"]
 [ext_resource type="Script" path="res://UnitOverlay/UnitOverlay.gd" id="6_majei"]
+[ext_resource type="PackedScene" uid="uid://btwik0qraaql2" path="res://Items/CollectibleItem.tscn" id="16_do6s2"]
+[ext_resource type="Script" path="res://Items/item_data.gd" id="17_af3kq"]
+[ext_resource type="PackedScene" uid="uid://bgqm2grpapmkl" path="res://UI/Inventory/Inventory.tscn" id="17_rrehx"]
 [ext_resource type="Texture2D" uid="uid://bn5dffktatxuj" path="res://Units/3388919684.png" id="18_226ku"]
 [ext_resource type="Texture2D" uid="uid://b1rp6jwv8ogmu" path="res://Items/health_base-Sheet-Sheet.png" id="25_kwc8g"]
 [ext_resource type="Script" path="res://Items/HealthItem.gd" id="25_wkc36"]
@@ -387,22 +390,22 @@ movement_data = {
 10: 1
 }
 
-[sub_resource type="Curve2D" id="Curve2D_fhcyp"]
+[sub_resource type="Curve2D" id="Curve2D_k78jm"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_upsk0"]
+[sub_resource type="Curve2D" id="Curve2D_k12hh"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_0wqxt"]
+[sub_resource type="Curve2D" id="Curve2D_uoc38"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_s1xhe"]
+[sub_resource type="Curve2D" id="Curve2D_pdbip"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_jafev"]
+[sub_resource type="Curve2D" id="Curve2D_pt2w0"]
 resource_local_to_scene = true
 
-[sub_resource type="Curve2D" id="Curve2D_1m1nq"]
+[sub_resource type="Curve2D" id="Curve2D_k6tui"]
 resource_local_to_scene = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vd8ip"]
@@ -488,6 +491,25 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_nr1lj"]
+frames = 7
+frame_1/duration = 1.0
+frame_2/duration = 1.0
+frame_3/duration = 1.0
+frame_4/duration = 1.0
+frame_5/duration = 1.0
+frame_6/duration = 1.0
+
+[sub_resource type="Resource" id="Resource_elyh5"]
+script = ExtResource("17_af3kq")
+id = "1"
+name = "HealthPack"
+texture = SubResource("AnimatedTexture_nr1lj")
+stackable = true
+max_stack_size = 50
+description = "Heal yourself for 50!"
+count = 1
+
 [node name="Main" type="Node2D"]
 
 [node name="GameBoard" type="Node2D" parent="."]
@@ -522,7 +544,7 @@ position = Vector2(348, 535)
 [node name="EnemyBear" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(1, 0.19, 0.19, 1)
 position = Vector2(200, 600)
-curve = SubResource("Curve2D_fhcyp")
+curve = SubResource("Curve2D_k78jm")
 is_enemy = true
 move_range = 3
 attack_range = 2
@@ -535,7 +557,7 @@ unit_name = "Space Pirate 768"
 [node name="EnemyBear2" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(1, 0.06, 0.06, 1)
 position = Vector2(700, 600)
-curve = SubResource("Curve2D_upsk0")
+curve = SubResource("Curve2D_k12hh")
 is_enemy = true
 move_range = 3
 attack_range = 2
@@ -547,7 +569,7 @@ unit_name = "Space Pirate 100"
 
 [node name="Bear" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(500, 480)
-curve = SubResource("Curve2D_0wqxt")
+curve = SubResource("Curve2D_uoc38")
 move_range = 2
 attack_range = 3
 unit_level = 2
@@ -556,7 +578,7 @@ unit_name = "Player"
 
 [node name="Cat" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(850.293, 412.465)
-curve = SubResource("Curve2D_s1xhe")
+curve = SubResource("Curve2D_pdbip")
 move_range = 4
 attack_range = 1
 skin_offset = Vector2(5, 12)
@@ -564,7 +586,7 @@ unit_name = "Space Pirate 970"
 
 [node name="Squirrel" parent="GameBoard" instance=ExtResource("2")]
 position = Vector2(355.298, 298.556)
-curve = SubResource("Curve2D_jafev")
+curve = SubResource("Curve2D_pt2w0")
 move_range = 2
 attack_range = 2
 skin_offset = Vector2(6, 17)
@@ -573,7 +595,7 @@ unit_name = "Space Pirate 370"
 [node name="asteroid" parent="GameBoard" instance=ExtResource("2")]
 modulate = Color(0.835762, 0.716936, 0.720745, 1)
 position = Vector2(200, 100)
-curve = SubResource("Curve2D_1m1nq")
+curve = SubResource("Curve2D_k6tui")
 move_range = 3
 attack_range = 2
 skin = ExtResource("18_226ku")
@@ -596,6 +618,10 @@ animation = &"collect"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GameBoard/Items/HealthBase/Area2D"]
 
+[node name="CollectibleItem" parent="GameBoard/Items" instance=ExtResource("16_do6s2")]
+position = Vector2(100, 100)
+item_data = SubResource("Resource_elyh5")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_scale = 1000.0
 
@@ -607,7 +633,11 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 0.0
 offset_top = 0.0
+offset_right = 200.0
+offset_bottom = 200.088
 mouse_filter = 2
+
+[node name="Inventory" parent="CanvasLayer" instance=ExtResource("17_rrehx")]
 
 [connection signal="accept_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_accept_pressed"]
 [connection signal="moved" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_moved"]

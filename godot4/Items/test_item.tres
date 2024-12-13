@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://bavg8ye1fr7of"]
+
+[ext_resource type="Script" path="res://Items/item_data.gd" id="1_script"]
+
+[sub_resource type="Resource" id="Resource_awt3t"]
+metadata/__load_path__ = "res://path/to/your/texture.png"
+
+[resource]
+script = ExtResource("1_script")
+id = "test_item"
+name = "Test Item"
+texture = SubResource("Resource_awt3t")
+stackable = false
+max_stack_size = 1
+description = "This is a test item"

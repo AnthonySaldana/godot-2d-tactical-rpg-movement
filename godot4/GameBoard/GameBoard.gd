@@ -25,6 +25,8 @@ var _items := {}  # Dictionary to track items on the board
 @onready var _map: TileMapLayer = $Map
 @onready var _camera: Camera2D = $CameraController # Removed type annotation since CameraController type not found
 @onready var _items_node: Node2D = $Items
+# Add near the top of the file
+@onready var inventory = $"../CanvasLayer/Inventory"
 
 const MAX_VALUE: int = 99999
 
@@ -345,8 +347,19 @@ func _initialize_items() -> void:
 		var cell = grid.calculate_grid_coordinates(item_node.position)
 		_items[cell] = item_node
 
+# Modify the _collect_item function
 func _collect_item(item: Node2D, unit: Unit) -> void:
-	# Handle item collection (healing, effects, etc.)
+	print("Collefting item!")
+	print(item.item_data)
+	print(item.has_node('CollectibleItem'))
 	if item.is_in_group("healing_items"):
 		unit.heal(item.healing_amount)
 		item.queue_free()
+		print("Healing Item")
+	elif item is Node2D:
+		var collectible = item as Node2D
+		print("Attempting to add to inventory")
+		if inventory.add_item(collectible.item_data):
+			print("Added item to inventory")
+			item.queue_free()
+	print("Finished collecting items")
